@@ -1,0 +1,30 @@
+﻿using NgTodoList.Data.Mapping;
+using NgTodoList.Domain;
+using System.Data.Entity;
+
+namespace NgTodoList.Data.Context
+{
+    public class NgTodoListDataContext : DbContext
+    {
+        public NgTodoListDataContext()
+            : base("NgTodoListConnectionString")
+        { }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Todo> Todos { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Configurations.Add(new UserMap());
+            modelBuilder.Configurations.Add(new TodoMap());
+        }
+    }
+
+    public class NgTodoListDataContextInitializer : DropCreateDatabaseAlways<NgTodoListDataContext>
+    {
+        protected override void Seed(NgTodoListDataContext context)
+        {
+
+        }
+    }
+}
