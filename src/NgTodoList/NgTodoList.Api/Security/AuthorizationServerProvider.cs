@@ -30,8 +30,6 @@ namespace NgTodoList.Api.Security
 
                     user.Authenticate(context.UserName, context.Password);
 
-                    _repository.SaveOrUpdate(user);
-
                     GenericIdentity genericIdentity = new GenericIdentity(user.Email);
                     var identity = new ClaimsIdentity(genericIdentity, null, context.Options.AuthenticationType, null, null);
                     identity.AddClaim(new Claim("sub", context.UserName));
