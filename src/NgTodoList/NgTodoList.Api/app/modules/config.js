@@ -56,8 +56,8 @@
 
         // Verifica o tema
         if (!localStorage.getItem('theme')) {
-            localStorage.setItem('theme', 'a');
-            $rootScope.theme = 'a';
+            localStorage.setItem('theme', 'journal');
+            $rootScope.theme = 'journal';
         } else {
             $rootScope.theme = localStorage.getItem('theme');
         }

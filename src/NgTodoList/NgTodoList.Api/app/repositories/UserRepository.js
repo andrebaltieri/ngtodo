@@ -31,6 +31,9 @@
             },
             register: function (user) {
                 return $http.post("/api/account/register", user, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } });
+            },
+            resetPassword: function (email) {
+                return $http.post("/api/account/resetpassword", email, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } });
             }
         };
 

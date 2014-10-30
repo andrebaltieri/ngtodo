@@ -118,6 +118,7 @@
     <Content Include="app\content\vendor\angularjs\angular-resource.min.js" />
     <Content Include="app\content\vendor\angularjs\directives\ui-bootstrap-tpls.min.js" />
     <Content Include="app\content\vendor\angularjs\directives\ui-bootstrap.min.js" />
+    <Content Include="app\content\vendor\animate\animate.css" />
     <Content Include="app\modules\account\controllers\ForgotPasswordCtrl.js" />
     <Content Include="app\modules\account\controllers\LoginCtrl.js" />
     <Content Include="app\modules\account\controllers\LogoutCtrl.js" />

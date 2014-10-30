@@ -13,9 +13,9 @@
         };
 
         $scope.rememberPassword = function () {
-            UserRepository.register($scope.forgotPasswordModel).then(
+            UserRepository.resetPassword($scope.forgotPasswordModel).then(
                 function (result) {
-                    toastr.success(result, 'Senha restaurada com sucesso!');
+                    toastr.success(result.data, 'Senha restaurada com sucesso!');
                     $location.path('/forgot-paswword-sucess');
                 },
                 function (error) {

@@ -9,11 +9,10 @@
 
     function SignUpCtrl($scope, UserRepository, $location) {
         $scope.signupModel = {
-            name: 'Bruce Wayne',
-            email: 'andrebaltieri@gmail.com',
-            username: 'batman',
-            password: 'batman',
-            confirmPassword: 'batman'
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: ''
         };
 
         $scope.signup = function ($event) {
