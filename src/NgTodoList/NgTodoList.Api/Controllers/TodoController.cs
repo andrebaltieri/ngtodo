@@ -3,6 +3,7 @@ using NgTodoList.Domain;
 using NgTodoList.Domain.Repository;
 using NgTodoList.Utils.Helpers;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -33,7 +34,12 @@ namespace NgTodoList.Api.Controllers
             try
             {
                 var todos = _todoRepository.Get(User.Identity.Name);
-                response = Request.CreateResponse(HttpStatusCode.OK, todos);
+                response = Request.CreateResponse(HttpStatusCode.OK, todos.Select(x => new
+                {
+                    id = x.Id,
+                    text = x.Title,
+                    done = x.Done
+                }));
             }
             catch (Exception ex)
             {
@@ -58,7 +64,7 @@ namespace NgTodoList.Api.Controllers
                 var todos = new List<Todo>();
                 foreach (var item in model)
                 {
-                    var todo = new Todo(item.Title);
+                    var todo = new Todo(item.Text);
                     if (item.Done)
                         todo.MarkAsDone();
 

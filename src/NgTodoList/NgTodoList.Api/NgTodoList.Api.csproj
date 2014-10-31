@@ -169,6 +169,7 @@
     <Content Include="app\modules\home\views\404.html" />
     <Content Include="app\modules\home\views\index.html" />
     <Content Include="app\repositories\AuthRepository.js" />
+    <Content Include="app\repositories\TodoRepository.js" />
     <Content Include="app\repositories\UserRepository.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />

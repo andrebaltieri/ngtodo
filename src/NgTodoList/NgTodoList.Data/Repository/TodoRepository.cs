@@ -1,7 +1,6 @@
 ﻿using NgTodoList.Data.Context;
 using NgTodoList.Domain;
 using NgTodoList.Domain.Repository;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -22,12 +21,16 @@ namespace NgTodoList.Data.Repository
 
         public IList<Todo> Get(string email)
         {
-            return _context
+            var user = _context
                 .Users
-                .Where(x =>
-                    x.Email.ToLower() == email.ToLower())
-                .FirstOrDefault().Todos
-                .ToList();
+                .Include(x => x.Todos)
+                .Where(x => x.Email.ToLower() == email.ToLower())
+                .FirstOrDefault();
+
+            if (user != null)
+                return user.Todos.ToList();
+
+            return new List<Todo>();
         }
 
         public void Sync(IList<Todo> todos, string email)
@@ -45,7 +48,7 @@ namespace NgTodoList.Data.Repository
                 foreach (var todo in todos)
                 {
                     SqlCommand insertTodosCommand = new SqlCommand("INSERT INTO [Todo] VALUES (@title, @done, @userId)", conn);
-                    
+
                     insertTodosCommand.Parameters.Add("@title", SqlDbType.VarChar);
                     insertTodosCommand.Parameters.Add("@done", SqlDbType.Bit);
                     insertTodosCommand.Parameters.Add("@userId", SqlDbType.Int);
@@ -53,7 +56,7 @@ namespace NgTodoList.Data.Repository
                     insertTodosCommand.Parameters["@title"].Value = todo.Title;
                     insertTodosCommand.Parameters["@done"].Value = todo.Done;
                     insertTodosCommand.Parameters["@userId"].Value = user.Id;
-                    
+
                     insertTodosCommand.ExecuteNonQuery();
                 }
                 conn.Close();

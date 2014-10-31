@@ -5,9 +5,9 @@
         .module('app')
         .controller('HomeCtrl', HomeCtrl);
 
-    HomeCtrl.$inject = ['$scope','$http'];
+    HomeCtrl.$inject = ['$scope', '$http', 'TodoRepository'];
 
-    function HomeCtrl($scope, $http) {
+    function HomeCtrl($scope, $http, TodoRepository) {
         $scope.todo = {
             id: 0,
             text: '',
@@ -66,19 +66,19 @@
         }
 
         function Load() {
-            //if (navigator.onLine) {
-            //    toastr.success('Persistindo dados na nuvem!', 'Sincronizando');
-            //} else {
-            ReadLocal();
-            //}
+            if (navigator.onLine) {
+                ReadCloud();
+            } else {
+                ReadLocal();
+            }
         }
 
         function Sync() {
-            //if (navigator.onLine) {
-            //    toastr.success('Persistindo dados na nuvem!', 'Sincronizando');
-            //} else {
-            SaveLocal();
-            //}
+            if (navigator.onLine) {
+                SaveCloud();
+            } else {
+                SaveLocal();
+            }
         }
 
         function ReadLocal() {
@@ -92,11 +92,27 @@
         }
 
         function ReadCloud() {
-            
+            TodoRepository
+                .getTodos()
+                .then(
+                    function (result) {
+                        $scope.todos = result.data;
+                    },
+                    function (error) {
+                        toastr.error(error.data, "Falha na requisição");
+                    });
         }
 
         function SaveCloud() {
-
+            TodoRepository
+                .sync($scope.todos)
+                .then(
+                    function (result) {
+                        toastr.info(result.data, "Sincronização completa")
+                    },
+                    function (error) {
+                        toastr.error(error.data, "Falha na requisição");
+                    });
         }
     }
 })();
