@@ -1,4 +1,4 @@
-﻿$( document ).ready(function() {
+﻿$(document).ready(function () {
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -12,5 +12,11 @@
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
+    }
+
+    if (navigator.onLine) {
+        toastr.success('Estamos navegando online!', 'Status da Rede');
+    } else {
+        toastr.error('Estamos navegando offline!', 'Status da Rede');
     }
 });
