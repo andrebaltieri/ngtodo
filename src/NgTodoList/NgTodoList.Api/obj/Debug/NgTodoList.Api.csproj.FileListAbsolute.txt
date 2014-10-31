@@ -1,3 +1,4 @@
+C:\dev\ngtodo\src\NgTodoList\NgTodoList.Api\obj\Debug\NgTodoList.Api.csprojResolveAssemblyReference.cache
 C:\dev\ngtodo\src\NgTodoList\NgTodoList.Api\bin\NgTodoList.Api.dll.config
 C:\dev\ngtodo\src\NgTodoList\NgTodoList.Api\bin\NgTodoList.Api.dll
 C:\dev\ngtodo\src\NgTodoList\NgTodoList.Api\bin\NgTodoList.Api.pdb
@@ -41,6 +42,5 @@ C:\dev\ngtodo\src\NgTodoList\NgTodoList.Api\bin\System.Web.Http.xml
 C:\dev\ngtodo\src\NgTodoList\NgTodoList.Api\bin\System.Web.Http.Owin.xml
 C:\dev\ngtodo\src\NgTodoList\NgTodoList.Api\bin\System.Web.Http.WebHost.xml
 C:\dev\ngtodo\src\NgTodoList\NgTodoList.Api\bin\Ionic.Zip.xml
-C:\dev\ngtodo\src\NgTodoList\NgTodoList.Api\obj\Debug\NgTodoList.Api.csprojResolveAssemblyReference.cache
 C:\dev\ngtodo\src\NgTodoList\NgTodoList.Api\obj\Debug\NgTodoList.Api.dll
 C:\dev\ngtodo\src\NgTodoList\NgTodoList.Api\obj\Debug\NgTodoList.Api.pdb

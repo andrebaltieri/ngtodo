@@ -3,7 +3,10 @@ using NgTodoList.Domain;
 using NgTodoList.Domain.Repository;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace NgTodoList.Data.Repository
@@ -20,39 +23,46 @@ namespace NgTodoList.Data.Repository
         public IList<Todo> Get(string email)
         {
             return _context
-                .Todos
-                .Include(x => x.User)
+                .Users
                 .Where(x =>
-                    x.User.Email.ToLower() == email.ToLower() &&
-                    x.Done == false)
-                .OrderBy(x => x.Title)
+                    x.Email.ToLower() == email.ToLower())
+                .FirstOrDefault().Todos
                 .ToList();
         }
 
-        public IList<Todo> GetArchive(string email)
+        public void Sync(IList<Todo> todos, string email)
         {
-            return _context
-                .Todos
-                .Include(x => x.User)
-                .Where(x =>
-                    x.User.Email.ToLower() == email.ToLower() &&
-                    x.Done)
-                .OrderBy(x => x.Title)
-                .ToList();
-        }
-
-        public void Sync(IList<Todo> todos)
-        {
-            foreach (var todo in todos)
+            var user = _context.Users.Where(x => x.Email.ToLower() == email.ToLower()).FirstOrDefault();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["NgTodoListConnectionString"].ConnectionString))
             {
-                _context.Entry<Todo>(todo).State = EntityState.Modified;
+                conn.Open();
+
+                SqlCommand clearTodosCommand = new SqlCommand("DELETE FROM [Todo] WHERE [UserId]=@userId", conn);
+                clearTodosCommand.Parameters.Add("@userId", SqlDbType.VarChar);
+                clearTodosCommand.Parameters["@userId"].Value = user.Id;
+                clearTodosCommand.ExecuteNonQuery();
+
+                foreach (var todo in todos)
+                {
+                    SqlCommand insertTodosCommand = new SqlCommand("INSERT INTO [Todo] VALUES (@title, @done, @userId)", conn);
+                    
+                    insertTodosCommand.Parameters.Add("@title", SqlDbType.VarChar);
+                    insertTodosCommand.Parameters.Add("@done", SqlDbType.Bit);
+                    insertTodosCommand.Parameters.Add("@userId", SqlDbType.Int);
+
+                    insertTodosCommand.Parameters["@title"].Value = todo.Title;
+                    insertTodosCommand.Parameters["@done"].Value = todo.Done;
+                    insertTodosCommand.Parameters["@userId"].Value = user.Id;
+                    
+                    insertTodosCommand.ExecuteNonQuery();
+                }
+                conn.Close();
             }
-            _context.SaveChanges();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _context.Dispose();
         }
     }
 }

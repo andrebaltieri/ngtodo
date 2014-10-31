@@ -8,7 +8,10 @@ namespace NgTodoList.Data.Context
     {
         public NgTodoListDataContext()
             : base("NgTodoListConnectionString")
-        { }
+        {
+            Configuration.LazyLoadingEnabled = false;
+            Configuration.ProxyCreationEnabled = false;
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Todo> Todos { get; set; }

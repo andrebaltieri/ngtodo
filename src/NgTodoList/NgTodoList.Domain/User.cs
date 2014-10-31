@@ -24,14 +24,15 @@ namespace NgTodoList.Domain
             this.Password = EncryptHelper.Encrypt(password);
             this.IsActive = true;
             this._todos = new List<Todo>();
+            this.Todos = new List<Todo>();
         }
 
         public int Id { get; protected set; }
         public string Name { get; protected set; }
         public string Email { get; protected set; }
-        public string Password { get; protected set; }        
+        public string Password { get; protected set; }
         public bool IsActive { get; protected set; }
-        public ICollection<Todo> Todos
+        public virtual ICollection<Todo> Todos
         {
             get { return _todos; }
             protected set { _todos = new List<Todo>(value); }
@@ -73,6 +74,24 @@ namespace NgTodoList.Domain
 
             this.Name = name;
             this.Email = email;
+        }
+
+        public void SyncTodos(IList<Todo> todos)
+        {
+            Contract.Requires<Exception>(todos != null, "Lista de tarefas inválida");
+
+            this._todos = new List<Todo>();
+
+            foreach (var item in todos)
+            {
+                var todo = new Todo(item.Title, this.Id);
+                this._todos.Add(todo);
+            }
+        }
+
+        public void ClearTodos()
+        {
+            this._todos = new List<Todo>();
         }
 
         public void Inactivate()

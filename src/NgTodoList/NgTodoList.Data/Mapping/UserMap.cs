@@ -17,7 +17,7 @@ namespace NgTodoList.Data.Mapping
             Property(x => x.Email).IsRequired().HasMaxLength(160).HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_USER_EMAIL") { IsUnique = true }));
             Property(x => x.Password).IsRequired().HasMaxLength(32).IsFixedLength();
 
-            HasMany(x => x.Todos).WithRequired(x => x.User);
+            HasMany(x => x.Todos);
         }
     }
 }

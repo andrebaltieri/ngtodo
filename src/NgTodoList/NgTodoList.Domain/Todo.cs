@@ -7,10 +7,13 @@ namespace NgTodoList.Domain
     {
         protected Todo() { }
 
+        public Todo(string title)
+            : this(title, 0)
+        { }
+
         public Todo(string title, int userId)
         {
             Contract.Requires<Exception>(title.Length > 3, "O título da tarefa deve conter mais que 3 caracteres");
-            Contract.Requires<Exception>(userId > 0, "Usuário inválido");
 
             this.Id = 0;
             this.Title = title;
@@ -22,6 +25,15 @@ namespace NgTodoList.Domain
         public string Title { get; protected set; }
         public bool Done { get; protected set; }
         public int UserId { get; protected set; }
-        public User User { get; protected set; }
+
+        public void MarkAsDone()
+        {
+            this.Done = true;
+        }
+
+        public void MarkAsUndone()
+        {
+            this.Done = false;
+        }
     }
 }
